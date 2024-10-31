@@ -7,21 +7,27 @@ class PigLatin:
         return self.phrase
 
     def translate(self) -> str:
-        if self.phrase == "":
+        if not self.phrase:
             return "nil"
-        first_letter = self.phrase[0]
-        second_letter = self.phrase[1]
-        last_letter = self.phrase[-1]
-        if last_letter == 'y' and first_letter in 'aeiouAEIOU':
-            return self.phrase + 'nay'
-        if last_letter in 'aeiouAEIOU' and first_letter in 'aeiouAEIOU':
-            return self.phrase + 'yay'
-        if last_letter in 'kK':
-            return self.phrase + 'ay'
-        if first_letter not in 'aeiouAEIOU':
-            modified_phrase = self.phrase[1:] + first_letter
-            if second_letter not in "aeiouAEIOU":
-                modified_phrase = modified_phrase[1:] + second_letter
-            return modified_phrase + 'ay'
-        return ""
+        
+        words = self.phrase.split()
+        translated_words = []
+        
+        for word in words:
+            if word[0] in 'aeiouAEIOU':
+                if word[-1] in 'aeiouAEIOU':
+                    translated_words.append(word + 'yay')
+                elif word[-1] == 'y':
+                    translated_words.append(word + 'nay')
+                else:
+                    translated_words.append(word + 'ay')
+            else:
+                consonant_cluster = ''
+                rest_of_word = word
+                while rest_of_word and rest_of_word[0] not in 'aeiouAEIOU':
+                    consonant_cluster += rest_of_word[0]
+                    rest_of_word = rest_of_word[1:]
+                translated_words.append(rest_of_word + consonant_cluster + 'ay')
+        
+        return ' '.join(translated_words)
 
