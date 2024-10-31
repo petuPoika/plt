@@ -51,3 +51,9 @@ class TestPigLatin(unittest.TestCase):
         translator = PigLatin("well-being")
         translation = translator.translate()
         self.assertEqual("ellway-eingbay", translation)
+
+    # IF word has punctuation mark, it should stay on same place of the word.Only the following punctuation marks are allowed: point, comma, semi-colon, colon, apostrophe, question mark, exclamation mark, and round parenthesis
+    def test_translate_phrase_with_punctuations(self):
+        translator = PigLatin("hello world!")
+        translation = translator.translate()
+        self.assertEqual("ellohay orldway!", translation)

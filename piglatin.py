@@ -1,3 +1,5 @@
+from os.path import split
+
 
 class PigLatin:
     def __init__(self, phrase: str):
@@ -12,15 +14,23 @@ class PigLatin:
         
         words = self.phrase.split()
         translated_words = []
+        mark = ''
         
         for word in words:
-            if '-' in word:
+            if '!' in word:
+                mark = '!'
+                parts = word.replace('!', '')
+                translated_words.append(self.translate_subword(parts))
+            elif '-' in word:
                 subwords = word.split('-')
                 translated_subwords = [self.translate_subword(subword) for subword in subwords]
                 translated_words.append('-'.join(translated_subwords))
             else:
                 translated_words.append(self.translate_subword(word))
-        
+
+        if mark:
+            translated = ' '.join(translated_words)
+            return translated + mark
         return ' '.join(translated_words)
 
     def translate_subword(self, word):
