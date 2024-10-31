@@ -18,6 +18,12 @@ class PigLatin:
         if last_letter in 'kK':
             return self.phrase + 'ay'
         if first_letter not in 'aeiouAEIOU':
-            return self.phrase[1:] + first_letter + 'ay'
+            consonant_cluster_end = 0
+            for char in self.phrase:
+                if char.lower() not in 'aeiou':
+                    consonant_cluster_end += 1
+                else:
+                    break
+            return self.phrase[consonant_cluster_end:] + self.phrase[:consonant_cluster_end] + 'ay'
         return ""
 
