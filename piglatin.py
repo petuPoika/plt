@@ -14,20 +14,28 @@ class PigLatin:
         translated_words = []
         
         for word in words:
-            if word[0] in 'aeiouAEIOU':
-                if word[-1] in 'aeiouAEIOU':
-                    translated_words.append(word + 'yay')
-                elif word[-1] == 'y':
-                    translated_words.append(word + 'nay')
-                else:
-                    translated_words.append(word + 'ay')
+            if '-' in word:
+                subwords = word.split('-')
+                translated_subwords = [self.translate_subword(subword) for subword in subwords]
+                translated_words.append('-'.join(translated_subwords))
             else:
-                consonant_cluster = ''
-                rest_of_word = word
-                while rest_of_word and rest_of_word[0] not in 'aeiouAEIOU':
-                    consonant_cluster += rest_of_word[0]
-                    rest_of_word = rest_of_word[1:]
-                translated_words.append(rest_of_word + consonant_cluster + 'ay')
+                translated_words.append(self.translate_subword(word))
         
         return ' '.join(translated_words)
+
+    def translate_subword(self, word):
+        if word[0] in 'aeiouAEIOU':
+            if word[-1] in 'aeiouAEIOU':
+                return word + 'yay'
+            elif word[-1] == 'y':
+                return word + 'nay'
+            else:
+                return word + 'ay'
+        else:
+            consonant_cluster = ''
+            rest_of_word = word
+            while rest_of_word and rest_of_word[0] not in 'aeiouAEIOU':
+                consonant_cluster += rest_of_word[0]
+                rest_of_word = rest_of_word[1:]
+            return rest_of_word + consonant_cluster + 'ay'
 
