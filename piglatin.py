@@ -13,7 +13,7 @@ class PigLatin:
             return self.phrase + 'nay'
         if self.phrase[-1] in 'aeiouAEIOU' and self.phrase[0] in 'aeiouAEIOU':
             return self.phrase + 'yay'
-        if self.phrase[0] in 'aeiouAEIOU':
+        if self.phrase[-1] in 'kK':
             return self.phrase + 'ay'
         return ""
 
