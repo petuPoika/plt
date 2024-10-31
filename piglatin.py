@@ -9,11 +9,15 @@ class PigLatin:
     def translate(self) -> str:
         if self.phrase == "":
             return "nil"
-        if self.phrase[-1] == 'y' and self.phrase[0] in 'aeiouAEIOU':
+        first_letter = self.phrase[0]
+        last_letter = self.phrase[-1]
+        if last_letter == 'y' and first_letter in 'aeiouAEIOU':
             return self.phrase + 'nay'
-        if self.phrase[-1] in 'aeiouAEIOU' and self.phrase[0] in 'aeiouAEIOU':
+        if last_letter in 'aeiouAEIOU' and first_letter in 'aeiouAEIOU':
             return self.phrase + 'yay'
-        if self.phrase[-1] in 'kK':
+        if last_letter in 'kK':
             return self.phrase + 'ay'
+        if first_letter not in 'aeiouAEIOU':
+            return self.phrase[1:] + first_letter + 'ay'
         return ""
 
