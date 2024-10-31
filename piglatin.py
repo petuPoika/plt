@@ -10,6 +10,7 @@ class PigLatin:
         if self.phrase == "":
             return "nil"
         first_letter = self.phrase[0]
+        second_letter = self.phrase[1]
         last_letter = self.phrase[-1]
         if last_letter == 'y' and first_letter in 'aeiouAEIOU':
             return self.phrase + 'nay'
@@ -18,12 +19,9 @@ class PigLatin:
         if last_letter in 'kK':
             return self.phrase + 'ay'
         if first_letter not in 'aeiouAEIOU':
-            consonant_cluster_end = 0
-            for char in self.phrase:
-                if char.lower() not in 'aeiou':
-                    consonant_cluster_end += 1
-                else:
-                    break
-            return self.phrase[consonant_cluster_end:] + self.phrase[:consonant_cluster_end] + 'ay'
+            modified_phrase = self.phrase[1:] + first_letter
+            if second_letter not in "aeiouAEIOU":
+                modified_phrase = modified_phrase[1:] + second_letter
+            return modified_phrase + 'ay'
         return ""
 
