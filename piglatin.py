@@ -1,5 +1,3 @@
-from os.path import split
-
 
 class PigLatin:
     def __init__(self, phrase: str):
@@ -14,13 +12,10 @@ class PigLatin:
         
         words = self.phrase.split()
         translated_words = []
-        mark = ''
         
         for word in words:
-            if '!' in word:
-                mark = '!'
-                parts = word.replace('!', '')
-                translated_words.append(self.translate_subword(parts))
+            if any(c in word for c in "!?,;:()'"):
+                translated_words.append(self.translate_word_with_punctuation(word))
             elif '-' in word:
                 subwords = word.split('-')
                 translated_subwords = [self.translate_subword(subword) for subword in subwords]
@@ -28,19 +23,31 @@ class PigLatin:
             else:
                 translated_words.append(self.translate_subword(word))
 
-        if mark:
-            translated = ' '.join(translated_words)
-            return translated + mark
         return ' '.join(translated_words)
 
+    def translate_word_with_punctuation(self, word):
+        punctuation = ''.join(c for c in word if c in "!?,;:()'")
+        clean_word = ''.join(c for c in word if c not in "!?,;:()'")
+        translated = self.translate_subword(clean_word)
+        return translated + punctuation
+
     def translate_subword(self, word):
+        ay = 'ay'
+        yay = 'yay'
+        nay = 'nay'
+        if word.isupper():
+            ay = 'AY'
+            yay = 'YAY'
+            nay = 'NAY'
+
+
         if word[0] in 'aeiouAEIOU':
             if word[-1] in 'aeiouAEIOU':
-                return word + 'yay'
+                return word + yay
             elif word[-1] == 'y':
-                return word + 'nay'
+                return word + nay
             else:
-                return word + 'ay'
+                return word + ay
         else:
             consonant_cluster = ''
             rest_of_word = word
